@@ -2,10 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addArticle } from "../actions/index";
 
-class ConnectedForm extends Component {
-  state = {
-    title: "",
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addArticle: (article) => dispatch(addArticle(article)),
   };
+};
+
+class ConnectedForm extends Component {
+  //we don't need to define super(props) here as we are not ussing them in the constructor
+  constructor() {
+    super();
+    this.state = {
+      title: "",
+    };
+  }
 
   handleChange = (event) => {
     this.setState({ [event.target.id]: event.target.value });
@@ -36,12 +46,6 @@ class ConnectedForm extends Component {
     );
   }
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addArticle: (article) => dispatch(addArticle(article)),
-  };
-};
 
 const Form = connect(null, mapDispatchToProps)(ConnectedForm);
 export default Form;
