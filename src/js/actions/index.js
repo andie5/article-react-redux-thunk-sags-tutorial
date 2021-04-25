@@ -1,4 +1,8 @@
-import { ADD_ARTICLE, DATA_LOADED } from "../constants/action-types";
+import {
+  ADD_ARTICLE,
+  DATA_LOADED,
+  DATA_REQUESTED,
+} from "../constants/action-types";
 
 export function addArticle(payload) {
   const id = Math.random();
@@ -11,12 +15,6 @@ export function addArticle(payload) {
   };
 }
 
-export function getData() {
-  return function (dispatch) {
-    return fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((json) => {
-        return dispatch({ type: DATA_LOADED, payload: json });
-      });
-  };
+export function getData(url) {
+  return { type: DATA_REQUESTED, payload: { url } };
 }
