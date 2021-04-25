@@ -3,6 +3,7 @@ import {
   DATA_LOADED,
   API_ERRORED,
 } from "../constants/action-types";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
   articles: [],
@@ -11,23 +12,20 @@ const initialState = {
 };
 
 function rootReducer(state = initialState, action) {
-  if (action.type === ADD_ARTICLE) {
-    return Object.assign({}, state, {
-      articles: state.articles.concat(action.payload),
-    });
+  switch (action.type) {
+    case ADD_ARTICLE:
+      return { ...state, articles: state.articles.concat(action.payload) };
+    case DATA_LOADED:
+      return {
+        ...state,
+        remoteArticles: state.remoteArticles.concat(action.payload),
+      };
+    case API_ERRORED:
+      const errorMsg = "API error";
+      return { ...state, error: errorMsg };
+    default:
+      return state;
   }
-  if (action.type === DATA_LOADED) {
-    return Object.assign({}, state, {
-      remoteArticles: state.remoteArticles.concat(action.payload),
-    });
-  }
-  if (action.type === API_ERRORED) {
-    const errorMsg = "API error";
-    return Object.assign({}, state, {
-      error: errorMsg,
-    });
-  }
-  return state;
 }
 
 export default rootReducer;
